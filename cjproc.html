@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+{%load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <script language="JavaScript"></script>
+    <link href="/static/css/layout.css" rel="stylesheet" type="text/css">
+    <link href="/static/css/stylesheet.css" rel="stylesheet" type="text/css">
+    <script src="/static/css/jquery3.5.1.js"></script>
+    <title>cjpro</title>
+</head>
+
+<body onunload="forNext()" onLoad="init()">
+<div id="container1">
+    <header>
+        <div id="header1" style="font-size:18px">
+            <h2 align="center">成绩等级化处理系统V1.01</h2>
+            <div align="right">
+                <a href="/static/help.pdf" target="_blank" rel="nofollow">操作指引</a>
+                【<a href="updpsw">修改用户密码</a>】</div>
+            <div id="header_left1" align="left">
+                    <form name="frm1" action='/cjproc' method="post">
+                        <fieldset>
+                            <legend align="center">选择年级、类别、成绩表</legend>
+                            <div>{{form1.as_p}}</div>
+                            <div align="center"><input type="submit" name="submit1" id="submit1" value="确定" style="font-size:18px">
+                                &nbsp;&nbsp;&nbsp;&nbsp;<a href="/" onClick="exit()" style="color:blue;font-size:18x">【退出】</a>
+                            </div><br/>
+                            <div style="color:blue;font-size:14px">【提示】
+                                {% if msg %}
+                                当前选项：{{msg}}
+                                <span style="color:red">{% if cj_rows %}#数据{{cj_rows}}条
+                                {% else %}
+                                    {% if cj_xlsx %}
+                                        {{cj_xlsx}}
+                                    {% else %}
+                                        暂无数据
+                                    {% endif %}
+                                {% endif %}</span>
+                                {% else %}
+                                必须确定选择，才能继续下一步……
+                                {% endif %}
+                            </div><br/>
+                        </fieldset>
+                    </form>
+            </div>
+            <div id="header_mid1" align="center">
+                    <fieldset>
+                        <legend align="center">成绩等级化处理操作</legend>
+                        {% if msg %}
+                            {% if username %}
+                                <a href="/kmup">科目参数设置</a><br/><br/>
+                                <a href="/impxls">导入卷面成绩</a><br/>
+                                    {% if cj_rows %}
+                                        <span style="color:red;font-size:9px;right;">
+                                            -----慎用：导入将覆盖原数据!</span>
+                                    {% endif %}<br/>
+                                <a href="/cjpmdj">成绩排名定级</a><br/><br/>
+                                <a href="/ksdj">总分排名定级</a><br/><br/>
+                                <a href="/zhfx">成绩综合分析</a><br/><br/>
+                            {% else %}
+                                <p>[本栏只为特定用户所设]</p>
+                                <div><a>科目参数设置</a><br/><br/>
+                                    <a>导入卷面成绩</a><br/><br/>
+                                    <a>成绩排名定级</a><br/><br/>
+                                    <a>总分排名定级</a><br/><br/>
+                                    <a>成绩综合分析</a><br/><br/>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            <div><a>科目参数设置</a><br/><br/>
+                                <a>导入卷面成绩</a><br/><br/>
+                                <a>成绩排名定级</a><br/><br/>
+                                <a>总分排名定级</a><br/><br/>
+                                <a>成绩综合分析</a><br/><br/>
+                            </div>
+                            <h5>没有选择操作对象'年级/类别/成绩表',操作不能继续！</h5>
+                        {% endif %}
+                    </fieldset>
+            </div>
+            <div id="header_right1" align="center">
+                    <fieldset>
+                        <legend align="center">等级化成绩输出及表格下载</legend>
+                        {% if cj_rows %}
+                            <a href="/cjout">成绩选排输出</a><br/><br/>
+                            <a href="/cjcsv">查看成绩排名表</a><br/><br/>
+                            <a href="/fxcsv">查看成绩分析表</a><br/><br/>
+                            <a href="static/cjmodel.xlsx">下载成绩表模板</a><br/>
+                            <h5>【提示】以上各项输出相应表格均可从页面下载。</h5>
+                        {% else %}
+                            <a>成绩选排输出</a><br/><br/>
+                            <a>查看成绩等级排名表</a><br/><br/>
+                            <a>查看成绩综合分析表</a><br/><br/>
+                            <a href="static/cjmodel.xlsx">下载成绩表模板</a><br/>
+                            <h5>没有选择定操作对象‘成绩表’,部分功能失效！</h5>
+                        {% endif %}
+                        <br/>
+                    </fieldset>
+            </div>
+        </div>
+        <div align="center"><span style="color:red;size:24">{{xxuser_bh}}</span></div>
+    </header>
+
+    <footer>
+        <div id="footer1" align="center">====~~~声明信息：本系统版权由梅州市艺术学校LiZhiLiang所有~~~====</div>
+    </footer>
+</div>
+<script>
+function init(){
+	if(sessionStorage.clickN==0){
+		sessionStorage.clickN+=1;
+		document.getElementById("submit1").click()
+	}
+	}
+function forNext(){
+	  sessionStorage.sessionA=window.history.length;
+    }
+</script>
+</body>
+</html>
